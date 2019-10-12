@@ -1,0 +1,22 @@
+# IDEs
+.idea
+.vscode
+
+# Testing
+.pytest_cache
+__cache__
+__pycache__
+
+# Virtual Environments
+venv*
+
+# Doc
+docs/build
+
+# General
+*.log
+*.pyc
+*.__treating__
+
+# Configs
+*.ini
