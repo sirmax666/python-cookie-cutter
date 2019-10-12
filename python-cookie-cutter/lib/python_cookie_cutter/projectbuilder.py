@@ -14,6 +14,7 @@ Takes various actions to build the project from the templates and parameters.
 
 
 from jinja2 import Template
+import json
 import logging
 from pathlib import Path
 import os
@@ -38,34 +39,57 @@ class Builder:
         Build the Project in the target location.
         """
         location = self.interface.location
-        project_name = self.interface.project_name_slug
-        # Create Project Folder
-        cursor_path = Path(location, project_name)
-        logger.info(f"Creating Folder @ {str(cursor_path)}")
-        cursor_path.mkdir()
-        # Iterate through params to create the rest
-        # - Create project files
-        for file_, param in self.parameters['project_folder']['files'].items():
-            logging.info(f"> Generating {file_}")
-            file_name = str(file_)
-            # match = re.search(r"{{([a-z0-9_ ]+)}}", file_)
-            # if match:
-            #     template_value = match.group(1)
-            #     t = Template(file_)
-            #     file_name = t.render(**{template_value: getattr(self.interface, template_value)})
-            #     logging.info(f">> Replaced name for {file_name}")
+        for folder, body in self.parameters.items():
+            _create_folder_and_files(Path(location), folder, body)
 
-            file_template = Path(C._TEMPLATE_FOLDER, param['template'])
-            logging.info(f">> Generate based on template @ {str(file_template)}")
-            template_content = file_template.read_text()
-            # Replace Optional Content by Mapping of template_string key.
-            t = Template(template_content)
-            content = t.render(**param.get('template_string', {}))
-            self._generate_file(content, cursor_path / file_name)
-    
+
     def _read_template(self, path):
         return path.read_text()
 
-    def _generate_file(self, content, location):
-        with open(location, 'w+') as f_out:
-            f_out.write(content)
+
+def _generate_file(content, location):
+    with open(location, 'w+') as f_out:
+        f_out.write(content)
+
+
+def _create_folder_and_files(location, folder, body):
+    location = location / folder
+    logging.info(f">> Creating {folder} @ {str(location)}")
+    location.mkdir()
+
+    if body.get('files'):
+        logging.info("> Generating Files:")
+        for file_name, file_param in body['files'].items():
+            template_name = file_param['template']
+            logging.info(f"   - {file_name} with template {template_name}")
+            file_template = Path(C._TEMPLATE_FOLDER, template_name)
+            template_content = file_template.read_text()
+            t = Template(template_content)
+            content = t.render(**file_param.get('template_string', {}))
+            _generate_file(content, location / file_name)
+
+    if body.get('folders'):
+        for folder, body_ in body['folders'].items():
+            _create_folder_and_files(location, folder, body_)
+
+
+
+
+
+
+
+
+
+
+
+
+# def _create_folder_and_files(folder, body):
+#     logging.info(f">> Creating @ {folder}")
+#     if body.get('files'):
+#         logging.info("> Generating Files:")
+#         for file_name, file_param in body['files'].items():
+#             logging.info(f"      - {file_name}")
+            
+#     if body.get('folders'):
+#         for folder, body_ in body['folders'].items():
+#             _create_folder_and_files(folder, body_)

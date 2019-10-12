@@ -33,7 +33,7 @@ def __map_credentials(config):
     --- config.ini ---
     [SECTION_NAME]
     VALUE_1 = a_value_not_mapped
-    PASSWORD = {{REF_CREDS:MY-CREDS-SECTION:MY-CREDS-OPTION}}
+    PASSWORD = {{ '{{' }}REF_CREDS:MY-CREDS-SECTION:MY-CREDS-OPTION{{ '}}' }}
     [CREDENTIALS]
     INI_PATH = /path/to/the/ini/credentials.ini
 
@@ -55,7 +55,7 @@ def __map_credentials(config):
     for section in config.sections():
         dict_config = dict(config[section].items())
         for option, value in dict_config.items():
-            match = re.search("{{([A-Z\\-:_]+)}}", value)
+            match = re.search("{{'{{'}}([A-Z\\-:_]+){{'}}'}}", value)
             if match:
                 ref, sec, opt = match.group(1).split(":")
                 config[section][option] = config_creds.get(sec, opt)

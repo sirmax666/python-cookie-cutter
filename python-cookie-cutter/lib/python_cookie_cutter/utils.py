@@ -25,6 +25,21 @@ def read_json(path):
 
 
 def read_param(path, interface):
+    """Read project structure json file
+
+    Read the file and replace the template values inside {{value}}
+
+    Args:
+        path (str): Absolute path to the parameter json file.
+        interface (object): Interface object containing attributes which are
+                            used to replace the template values.
+    
+    Returns:
+        dict: A dictionnary with values replaced.
+
+    Todo:
+        * Find a way to make this more dynamical
+    """
     with open(path, 'r') as f_in:
         content = f_in.read()
     t = Template(content)

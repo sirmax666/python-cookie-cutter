@@ -39,12 +39,19 @@ class Interface:
         return answer
 
     def init_project(self, location):
-        project_name = self._question("Project name")
-        project_name_slug = self._slugify(project_name)
-        team_name = self._question("Team name")
-        author_name = self._question("Author name", force_answer=False, default=team_name)
-        max_length = self._question("PEP8 Maximum Line Length", ftype=int)
-        project_description = self._question("Project description")
+        # project_name = self._question("Project name")
+        # project_name_slug = self._slugify(project_name)
+        # team_name = self._question("Team name")
+        # author_name = self._question("Author name", force_answer=False, default=team_name)
+        # max_length = self._question("PEP8 Maximum Line Length", ftype=int)
+        # project_description = self._question("Project description")
+        # FOR TESTING:
+        project_name = 'Mega Big Code'
+        project_name_slug = "mega_big_code"
+        team_name = "Datahub"
+        author_name = "Maxime Sirois"
+        max_length = 80
+        project_description = "Just a fake project description"
 
         setattr(self, 'project_name', project_name)
         setattr(self, 'project_name_slug', project_name_slug)

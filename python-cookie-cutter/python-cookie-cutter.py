@@ -90,7 +90,7 @@ def main(argv, verbose=True):
 
     # ----- LOGGING SETUP ------------------------
     BATCH_ID = utils.now('%Y%m%d%H%M%S')
-    log_file_path = Path(C._PROJECT_FOLDER, 'logs' , f'cookiecut_{BATCH_ID}')
+    log_file_path = Path(C._PROJECT_FOLDER, 'logs' , f'cookiecut_{BATCH_ID}.log')
     set_log(str(log_file_path), args.debug, args.silent)
     if not verbose:
         logging.getLogger().setLevel(logging.CRITICAL)

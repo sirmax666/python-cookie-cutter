@@ -1,19 +1,72 @@
 {
-    "project_folder": {
+    "{{project_name_slug}}": {
         "folders": {
-            "main_folder": {
+            "{{project_name_slug}}": {
                 "folders": {
                     "param": {
                         "files": {
                             "config.ini": {
-                                "template": "./config.ini"
+                                "template": "./config.ini",
+                                "template_string": {
+                                    "project_name": "{{project_name}}"
+                                }
                             }
                         }
                     },
-                    "lib": {}
+                    "lib": {
+                        "folders": {
+                            "{{project_name_slug}}": {
+                                "folders": {
+                                    "tests": {}
+                                },
+                                "files": {
+                                    "__init__.py": {
+                                        "template": "./init.py"
+                                    },
+                                    "utils.py": {
+                                        "template": "./lib/utils.py"
+                                    },
+                                    "constants.py": {
+                                        "template": "./lib/constants.py"
+                                    }
+                                }
+                            }
+                        },
+                        "files": {
+                            "__init__.py": {
+                                "template": "./init.py"
+                            }
+                        }
+                    }
+                },
+                "files": {
+                    "{{project_name_slug}}.py": {
+                        "template": "./main.py",
+                        "template_string": {
+                            "project_name": "{{project_name}}",
+                            "project_name_slug": "{{project_name_slug}}",
+                            "team_name": "{{team_name}}",
+                            "author_name": "{{author_name}}",
+                            "project_description": "{{project_description}}"
+                        }
+                    }
                 }
             },
-            "logs": {}
+            "logs": {},
+            "tests": {
+                "folders": {
+                    "integration": {
+                        "files": {
+                            "setup_env.py": {
+                                "template": "./setup_env.py"
+                            },
+                            "testrunner.py": {
+                                "template": "./testrunner.py"
+                            }
+                        }
+                    }
+                }
+            }
         },
         "files": {
             ".gitignore": {
@@ -30,16 +83,6 @@
                 "template": "./LICENSE",
                 "template_string": {
                     "team_name": "{{team_name}}"
-                }
-            },
-            "{{project_name_slug}}.py": {
-                "template": "./main.py",
-                "template_string": {
-                    "project_name": "{{project_name}}",
-                    "project_name_slug": "{{project_name_slug}}",
-                    "team_name": "{{team_name}}",
-                    "author_name": "{{author_name}}",
-                    "project_description": "{{project_description}}"
                 }
             },
             "README.md": {

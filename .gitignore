@@ -20,3 +20,4 @@ docs/build
 
 # Configs
 *.ini
+!python-cookie-cutter/templates/config.ini
