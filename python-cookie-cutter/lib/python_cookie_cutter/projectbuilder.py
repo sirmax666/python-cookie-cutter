@@ -19,13 +19,14 @@ from pathlib import Path
 import subprocess
 
 from . import constants as C
+from . import utils
 
 
 logger = logging.getLogger(__name__)
 
 
 class Builder:
-    def __init__(self, interface, parameters):
+    def __init__(self, interface, parameters=None):
         self.parameters = parameters
         self.interface = interface
 
@@ -40,8 +41,19 @@ class Builder:
         for folder, body in self.parameters.items():
             _create_folder_and_files(Path(location), folder, body)
 
-    def _read_template(self, path):
-        return path.read_text()
+    def add_new_module(self):
+        location = self.interface.location
+        module_file_name = utils.slugify(self.interface.module_name) + '.py'
+        param = {
+            "template": "./lib/module.py",
+            "header": "./header_module.txt",
+            "template_string": {
+                "module_name": self.interface.module_name,
+                "team_name": self.interface.team_name,
+                "author_name": self.interface.author_name
+            }
+        }
+        _create_file(module_file_name, param, location)
 
 
 def _generate_file(content, location):

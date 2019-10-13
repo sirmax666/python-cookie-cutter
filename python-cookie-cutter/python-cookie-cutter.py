@@ -15,7 +15,7 @@ this script.
 Example:
     To initialize a new project:
         $ python python-cookie-cutter.py --init
-    
+
     To add a new module:
         $ python python-cookie-cutter.py --new-module module_name
 
@@ -44,8 +44,12 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("location", metavar="LOCATION", type=str,
                         help="Output Location without the project name")
-    parser.add_argument("--init", action="store_true",
-                        help="Initialize project")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--init", action="store_true",
+                       help="Initialize project")
+    group.add_argument("--newmodule", action="store_true",
+                       help="Initialize a new module (project must have) "
+                            "been initialized first")
     parser.add_argument("--debug", action="store_true",
                         help="Increases verbosity")
     parser.add_argument("--silent", action="store_true",
@@ -90,7 +94,7 @@ def main(argv, verbose=True):
 
     # ----- LOGGING SETUP ------------------------
     BATCH_ID = utils.now('%Y%m%d%H%M%S')
-    log_file_path = Path(C._PROJECT_FOLDER, 'logs' , f'cookiecut_{BATCH_ID}.log')
+    log_file_path = Path(C._PROJECT_FOLDER, 'logs', f'cookiecut_{BATCH_ID}.log')
     set_log(str(log_file_path), args.debug, args.silent)
     if not verbose:
         logging.getLogger().setLevel(logging.CRITICAL)
@@ -114,6 +118,12 @@ def main(argv, verbose=True):
         # Start the Builder
         builder = projectbuilder.Builder(inter, parameters)
         builder.start()
+    elif args.newmodule:
+        # Call Interface to gather answers and set attributes
+        inter.init_module(args.location)
+        # Start the Builder
+        builder = projectbuilder.Builder(inter)
+        builder.add_new_module()
 
 
 if __name__ == '__main__':

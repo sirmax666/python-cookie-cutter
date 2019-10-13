@@ -17,6 +17,7 @@ from datetime import datetime
 from jinja2 import Template
 import json
 from pathlib import Path
+import re
 import yaml
 
 
@@ -68,3 +69,7 @@ def now(fmt='%Y-%m-%d %H:%M:%S'):
         str: The current timestamp
     """
     return datetime.now().strftime(fmt)
+
+
+def slugify(s, delimiter="_"):
+    return re.sub("[ ]+", delimiter, s.lower())
