@@ -24,7 +24,7 @@ _MAIN_FOLDER = os.path.join(_CURRENT_FOLDER, '..', '..')
 _PROJECT_FOLDER = os.path.join(_MAIN_FOLDER, '..')
 _INI_PATH = os.path.join(_MAIN_FOLDER, 'param', 'config.ini')
 _TEMPLATE_FOLDER = os.path.join(_MAIN_FOLDER, 'templates')
-_STRUCTURE_FILE = os.path.join(_MAIN_FOLDER, 'param', 'project_structure.json')
+_STRUCTURE_FILE = os.path.join(_MAIN_FOLDER, 'param', 'project_structure.yaml')
 # --- GLOBALS ---
 NULL = ['NAN', 'NULL', 'N/A', 'NONE', '']
 

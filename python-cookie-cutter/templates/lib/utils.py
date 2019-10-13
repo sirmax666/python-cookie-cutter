@@ -35,3 +35,18 @@ def now(fmt='%Y-%m-%d %H:%M:%S'):
         str: The current timestamp
     """
     return datetime.now().strftime(fmt)
+
+
+def addition(*args):
+    """Addition an inifite number of integer arguments
+
+    Args:
+        number (int): Numbers to addition
+    
+    Returns:
+        int: The result of the addition
+    """
+    result = 0
+    for arg in args:
+        result += int(arg)
+    return result

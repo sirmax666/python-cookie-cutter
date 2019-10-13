@@ -39,27 +39,24 @@ class Interface:
         return answer
 
     def init_project(self, location):
-        # project_name = self._question("Project name")
-        # project_name_slug = self._slugify(project_name)
-        # team_name = self._question("Team name")
-        # author_name = self._question("Author name", force_answer=False, default=team_name)
-        # max_length = self._question("PEP8 Maximum Line Length", ftype=int)
-        # project_description = self._question("Project description")
+        # self.project_name = self._question("Project name")
+        # self.project_name_slug = self._slugify(project_name)
+        # self.team_name = self._question("Team name")
+        # self.author_name = self._question("Author name", force_answer=False, default=team_name)
+        # self.max_length = int(self._question("PEP8 Maximum Line Length", ftype=int))
+        # self.project_description = self._question("Project description")
+        # self.virtualenv = self._question("Virtualenv executor Path (leave blank for no)",
+        #                                  force_answer=False)
         # FOR TESTING:
-        project_name = 'Mega Big Code'
-        project_name_slug = "mega_big_code"
-        team_name = "Datahub"
-        author_name = "Maxime Sirois"
-        max_length = 80
-        project_description = "Just a fake project description"
+        self.project_name = 'Mega Big Code'
+        self.project_name_slug = "mega_big_code"
+        self.team_name = "Datahub"
+        self.author_name = "Maxime Sirois"
+        self.max_length = 80
+        self.project_description = "Just a fake project description"
+        self.location = location
+        # self.virtualenv = "C:\\Program Files (x86)\\Python36-32\\Scripts\\virtualenv.exe"
+        self.virtualenv = ""
 
-        setattr(self, 'project_name', project_name)
-        setattr(self, 'project_name_slug', project_name_slug)
-        setattr(self, 'team_name', team_name)
-        setattr(self, 'author_name', author_name)
-        setattr(self, 'max_length', int(max_length))
-        setattr(self, 'project_description', project_description)
-        setattr(self, 'location', location)
-
-    def _slugify(self, s):
-        return re.sub("[ ]+", "_", s.lower())
+    def _slugify(self, s, delimiter="_"):
+        return re.sub("[ ]+", delimiter, s.lower())

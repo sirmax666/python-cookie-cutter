@@ -1,6 +1,7 @@
 import argparse
 import logging
 from pathlib import Path
+import sys
 
 from lib.{{project_name_slug}} import constants as C
 from lib.{{project_name_slug}} import utils
@@ -62,7 +63,7 @@ def main(argv, verbose=True):
     # --------------------------------------------
 
     # DEFINE GENERAL VARIABLES FROM CONFIG
-    MY_VAR = config.get('SECTION', 'OPTION')
+    # MY_VAR = config.get('SECTION', 'OPTION')
 
 
 if __name__ == '__main__':

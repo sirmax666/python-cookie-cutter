@@ -14,11 +14,9 @@ Takes various actions to build the project from the templates and parameters.
 
 
 from jinja2 import Template
-import json
 import logging
 from pathlib import Path
-import os
-import re
+import subprocess
 
 from . import constants as C
 
@@ -33,7 +31,7 @@ class Builder:
 
     def start(self):
         self._build_project()
-    
+
     def _build_project(self):
         """
         Build the Project in the target location.
@@ -42,7 +40,6 @@ class Builder:
         for folder, body in self.parameters.items():
             _create_folder_and_files(Path(location), folder, body)
 
-
     def _read_template(self, path):
         return path.read_text()
 
@@ -50,46 +47,55 @@ class Builder:
 def _generate_file(content, location):
     with open(location, 'w+') as f_out:
         f_out.write(content)
+        if not content.endswith('\n'):
+            f_out.write('\n')
+
+
+def _add_header(content, header_template):
+    header_content = header_template.read_text()
+    return header_content + '\n\n\n' + content
+
+
+def _create_file(file_name, parameters, location):
+    content = ''
+    if parameters.get('template'):
+        template_name = parameters['template']
+        logging.info(f"   - {file_name} :: template :: {template_name}")
+        # Get template
+        file_template = Path(C._TEMPLATE_FOLDER, template_name)
+        template_content = file_template.read_text()
+        # Check if there is a header to paste before content
+        if parameters.get('header'):
+            header_template = Path(C._TEMPLATE_FOLDER, parameters['header'])
+            template_content = _add_header(template_content, header_template)
+        # Change values of template
+        t = Template(template_content)
+        content = t.render(**parameters.get('template_string', {}))
+    # Generate the File (with Header if applicable)
+    _generate_file(content, location / file_name)
 
 
 def _create_folder_and_files(location, folder, body):
     location = location / folder
-    logging.info(f">> Creating {folder} @ {str(location)}")
-    location.mkdir()
+    if folder == 'venv':
+        if body.get('exe'):
+            logging.info(f">>>> Creating VirtualEnv from {body.get('exe')}")
+            cmd = f"\"{body.get('exe')}\" \"{location}\""
+            subprocess.check_call(cmd, shell=True)
+            logging.info(f">>>> Pip Install Requirements.txt")
+            pip_exe = location / 'Scripts' / 'pip.exe'
+            requirements = location / '..' / 'requirements.txt'
+            cmd_pip = f'"{pip_exe}" install -r "{requirements}"'
+            subprocess.check_call(cmd_pip, shell=True)
+            return
+    else:
+        logging.info(f">> Creating {folder} @ {str(location)}")
+        location.mkdir()
 
     if body.get('files'):
-        logging.info("> Generating Files:")
         for file_name, file_param in body['files'].items():
-            template_name = file_param['template']
-            logging.info(f"   - {file_name} with template {template_name}")
-            file_template = Path(C._TEMPLATE_FOLDER, template_name)
-            template_content = file_template.read_text()
-            t = Template(template_content)
-            content = t.render(**file_param.get('template_string', {}))
-            _generate_file(content, location / file_name)
+            _create_file(file_name, file_param, location)
 
     if body.get('folders'):
         for folder, body_ in body['folders'].items():
             _create_folder_and_files(location, folder, body_)
-
-
-
-
-
-
-
-
-
-
-
-
-# def _create_folder_and_files(folder, body):
-#     logging.info(f">> Creating @ {folder}")
-#     if body.get('files'):
-#         logging.info("> Generating Files:")
-#         for file_name, file_param in body['files'].items():
-#             logging.info(f"      - {file_name}")
-            
-#     if body.get('folders'):
-#         for folder, body_ in body['folders'].items():
-#             _create_folder_and_files(folder, body_)

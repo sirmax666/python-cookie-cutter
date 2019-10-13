@@ -1,0 +1,16 @@
+{
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "editor.rulers": [
+        {{max_length}}
+    ],
+    "python.testing.pytestArgs": [
+        "{{project_name_slug}}\\lib\\tests",
+        "-vv"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
+}

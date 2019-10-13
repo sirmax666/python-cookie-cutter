@@ -1,0 +1,100 @@
+'{{project_name_slug}}':
+    files:
+        .gitignore:
+            template: ./gitignore
+        Jenkinsfile:
+            template: ./Jenkinsfile
+            template_string:
+                project_name_slug: '{{project_name_slug}}'
+        LICENSE:
+            template: ./LICENSE
+            template_string:
+                team_name: '{{team_name}}'
+        README.md:
+            template: ./README.md
+            template_string:
+                project_name: '{{project_name}}'
+        requirements.txt:
+            template: ./requirements.txt
+        setup.cfg:
+            template: ./setup.cfg
+            template_string:
+                max_length: '{{max_length}}'
+        version.sh:
+            template: ./version.sh
+        version.yaml:
+            template: ./version.yaml
+    folders:
+        venv:
+            exe: '{{virtualenv}}'
+        .vscode:
+            files:
+                settings.json:
+                    template: ./vscode/settings.json
+                    template_string:
+                        project_name_slug: '{{project_name_slug}}'
+                        max_length: '{{max_length}}'
+        logs:
+            files:
+                .gitkeep: {}
+        tests:
+            folders:
+                integration:
+                    files:
+                        setup_env.py:
+                            template: ./setup_env.py
+                        testrunner.py:
+                            template: ./testrunner.py
+        '{{project_name_slug}}':
+            files:
+                '{{project_name_slug}}.py':
+                    template: ./main.py
+                    header: ./header_main.txt
+                    template_string:
+                        author_name: '{{author_name}}'
+                        project_description: '{{project_description}}'
+                        project_name: '{{project_name}}'
+                        project_name_slug: '{{project_name_slug}}'
+                        team_name: '{{team_name}}'
+            folders:
+                lib:
+                    files:
+                        __init__.py:
+                            template: ./init.py
+                    folders:
+                        '{{project_name_slug}}':
+                            files:
+                                __init__.py:
+                                    template: ./init.py
+                                constants.py:
+                                    template: ./lib/constants.py
+                                    header: ./header_module.txt
+                                    template_string:
+                                        module_name: Constants
+                                        team_name: '{{team_name}}'
+                                        author_name: '{{author_name}}'
+                                utils.py:
+                                    template: ./lib/utils.py
+                                    header: ./header_module.txt
+                                    template_string:
+                                        module_name: Utilities
+                                        team_name: '{{team_name}}'
+                                        author_name: '{{author_name}}'
+                            folders:
+                                tests:
+                                    files:
+                                        test_utils.py:
+                                            template: ./lib/tests/test_utils.py
+                                            header: ./header_test_module.txt
+                                            template_string:
+                                                module_name: Utilities
+                                                team_name: '{{team_name}}'
+                                                author_name: '{{author_name}}'
+                                        __init__.py:
+                                            template: ./init.py
+                param:
+                    files:
+                        config.ini:
+                            template: ./config.ini
+                            template_string:
+                                project_name: '{{project_name}}'

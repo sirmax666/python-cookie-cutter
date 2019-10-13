@@ -16,6 +16,8 @@ Regroups miscellaneous functions
 from datetime import datetime
 from jinja2 import Template
 import json
+from pathlib import Path
+import yaml
 
 
 def read_json(path):
@@ -33,23 +35,25 @@ def read_param(path, interface):
         path (str): Absolute path to the parameter json file.
         interface (object): Interface object containing attributes which are
                             used to replace the template values.
-    
+
     Returns:
         dict: A dictionnary with values replaced.
 
     Todo:
         * Find a way to make this more dynamical
     """
-    with open(path, 'r') as f_in:
-        content = f_in.read()
+    p = Path(path)
+    content = p.read_text()
     t = Template(content)
-    rendered = t.render(project_name=interface.project_name,
-                        project_name_slug=interface.project_name_slug,
-                        team_name=interface.team_name,
-                        author_name=interface.author_name,
-                        max_length=interface.max_length,
-                        project_description=interface.project_description)
-    return json.loads(rendered)
+    rendered = t.render(**interface.__dict__)
+
+    if p.suffix.lower() == '.json':
+        data = json.loads(rendered)
+    elif p.suffix.lower() in ['.yml', '.yaml']:
+        data = yaml.load(rendered, Loader=yaml.FullLoader)
+    else:
+        raise ValueError("Wrong Parameter File Format")
+    return data
 
 
 def now(fmt='%Y-%m-%d %H:%M:%S'):
