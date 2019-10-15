@@ -50,7 +50,8 @@ class Builder:
             "template_string": {
                 "module_name": self.interface.module_name,
                 "team_name": self.interface.team_name,
-                "author_name": self.interface.author_name
+                "author_name": self.interface.author_name,
+                "module_name_styled": self.interface.module_name_styled
             }
         }
         _create_file(module_file_name, param, location)

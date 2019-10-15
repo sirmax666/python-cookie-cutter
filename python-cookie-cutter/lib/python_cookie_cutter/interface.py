@@ -79,6 +79,7 @@ class Interface:
         self.author_name = self._question("Author name", force_answer=False,
                                           default=self.team_name)
         self.module_name = self._question("Module name")
+        self.module_name_styled = self._module_style(self.module_name)
         self.location = target_path
 
     def _slugify(self, s, delimiter="_"):
@@ -86,3 +87,6 @@ class Interface:
 
     def _deslugify(self, s, delimiter="_"):
         return re.sub(delimiter, " ", s.title())
+
+    def _module_style(self, s):
+        return re.sub("[ ]+", "", s.title())

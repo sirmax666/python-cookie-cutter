@@ -3,4 +3,4 @@ jinja2
 pytest==4.5.0
 pytest-mock
 sphinx
-yaml
+pyyaml
