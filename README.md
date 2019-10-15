@@ -48,3 +48,12 @@ python python-cookie-cutter.py "C:\My Documents\python_projects\my_new_project" 
 ### Change the structure
 
 Under construction...
+
+### More Info on Templating
+
+For the configuration file `project_structre.[yaml | json]`, the template values
+are replaced at read in the `utils.read_param()` function.
+
+For the new module, the parameter object is hard coded to avoid carrying too
+much parameter files.
+<!--  -->

@@ -32,7 +32,7 @@ import sys
 
 from lib.python_cookie_cutter import projectbuilder
 from lib.python_cookie_cutter import constants as C
-from lib.python_cookie_cutter import interface
+from lib.python_cookie_cutter import projectproperties
 from lib.python_cookie_cutter import utils
 
 
@@ -104,25 +104,25 @@ def main(argv, verbose=True):
     # MY_VAR = config.get('SECTION', 'OPTION')
 
     # ---
-    # Init interface
+    # Init properties
     # ---
-    inter = interface.Interface()
+    properties = projectproperties.ProjectProperties()
     # ----
     # Initialize Project
     # ---
     if args.init:
-        # Call Interface to gather answers and set attributes
-        inter.init_project(args.location)
+        # Call properties to gather answers and set attributes
+        properties.init_project(args.location)
         # Read Parameter File
-        parameters = utils.read_param(C._STRUCTURE_FILE, inter)
+        parameters = utils.read_param(C._STRUCTURE_FILE, properties)
         # Start the Builder
-        builder = projectbuilder.Builder(inter, parameters)
+        builder = projectbuilder.Builder(properties, parameters)
         builder.start()
     elif args.newmodule:
-        # Call Interface to gather answers and set attributes
-        inter.init_module(args.location)
+        # Call properties to gather answers and set attributes
+        properties.init_module(args.location)
         # Start the Builder
-        builder = projectbuilder.Builder(inter)
+        builder = projectbuilder.Builder(properties)
         builder.add_new_module()
 
 

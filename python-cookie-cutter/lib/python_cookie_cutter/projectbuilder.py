@@ -26,9 +26,9 @@ logger = logging.getLogger(__name__)
 
 
 class Builder:
-    def __init__(self, interface, parameters=None):
+    def __init__(self, properties, parameters=None):
         self.parameters = parameters
-        self.interface = interface
+        self.properties = properties
 
     def start(self):
         self._build_project()
@@ -37,21 +37,21 @@ class Builder:
         """
         Build the Project in the target location.
         """
-        location = self.interface.location
+        location = self.properties.location
         for folder, body in self.parameters.items():
             _create_folder_and_files(Path(location), folder, body)
 
     def add_new_module(self):
-        location = self.interface.location
-        module_file_name = utils.slugify(self.interface.module_name) + '.py'
+        location = self.properties.location
+        module_file_name = utils.slugify(self.properties.module_name) + '.py'
         param = {
             "template": "./lib/module.py",
             "header": "./header_module.txt",
             "template_string": {
-                "module_name": self.interface.module_name,
-                "team_name": self.interface.team_name,
-                "author_name": self.interface.author_name,
-                "module_name_styled": self.interface.module_name_styled
+                "module_name": self.properties.module_name,
+                "team_name": self.properties.team_name,
+                "author_name": self.properties.author_name,
+                "module_name_styled": self.properties.module_name_styled
             }
         }
         _create_file(module_file_name, param, location)
